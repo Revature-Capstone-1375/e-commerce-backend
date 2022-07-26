@@ -22,4 +22,9 @@ public class UserService {
     public User save(User user) {
         return userRepository.save(user);
     }
+
+    public void deleteUser(User user) {
+        User userToDelete = userRepository.findById(user.getId()).orElseThrow(()-> new RuntimeException("User could not be found"));
+        userRepository.delete(userToDelete);
+    }
 }
