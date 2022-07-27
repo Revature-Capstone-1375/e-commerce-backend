@@ -23,8 +23,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void deleteUser(User user) {
-        User userToDelete = userRepository.findById(user.getId()).orElseThrow(()-> new RuntimeException("User could not be found"));
-        userRepository.delete(userToDelete);
+    public User updateUser(User user) {
+        User userToUpdate = userRepository.findById(user.getId()).orElseThrow(()-> new RuntimeException("User could not be found"));
+        userToUpdate.setEmail(user.getEmail());
+        userToUpdate.setFirstName(user.getFirstName());
+        userToUpdate.setLastName(user.getLastName());
+        userToUpdate.setPassword(user.getPassword());
+        return userRepository.save(userToUpdate);
     }
 }
