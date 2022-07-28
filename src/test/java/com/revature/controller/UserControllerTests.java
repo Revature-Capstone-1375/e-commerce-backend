@@ -8,8 +8,11 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @WebMvcTest(UserController.class)
 public class UserControllerTests {
@@ -26,7 +29,13 @@ public class UserControllerTests {
     }
 
     @Test
-    void shouldReturnListOfUsers() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/users/{id}").header("test","test"));
+    void updateUsersAPI() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .put("/users/{id}", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"email\" : \"test\", \"password\" : \"test\", \"firstName\" : \"test\", \"lastName\" : \"test\"}"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].email").value("test"));
     }
 }
