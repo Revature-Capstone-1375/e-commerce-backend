@@ -1,4 +1,4 @@
-package com.revature;
+package com.revature.service;
 
 
 import com.revature.models.User;
