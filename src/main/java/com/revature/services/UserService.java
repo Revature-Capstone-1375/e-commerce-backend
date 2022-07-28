@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
 import com.revature.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -23,8 +24,12 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User deleteUserById(Integer userId) {
+        return userRepository.deleteUserById(userId);
+    }
+
     public User updateUser(User user) {
-        User userToUpdate = userRepository.findById(user.getId()).orElseThrow(()-> new RuntimeException("User could not be found"));
+        User userToUpdate = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("User could not be found"));
         userToUpdate.setEmail(user.getEmail());
         userToUpdate.setFirstName(user.getFirstName());
         userToUpdate.setLastName(user.getLastName());
