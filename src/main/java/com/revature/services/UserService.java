@@ -1,11 +1,8 @@
 package com.revature.services;
 
-import com.revature.exceptions.UserNotFoundException;
 import com.revature.models.User;
 import com.revature.repositories.UserRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -42,7 +39,6 @@ public class UserService {
         userToUpdate.setLastName(user.getLastName());
         userToUpdate.setPassword(user.getPassword());
         return userRepository.save(userToUpdate);
-
     }
 }
 
