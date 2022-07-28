@@ -26,6 +26,13 @@ public class UserServiceUnitTests {
     User user2 = new User(2, "test2", "test2", "test2", "test2", UserRoles.USER);
 
     @Test
+    public void createUser(){
+        Mockito.when(userRepository.save(user)).thenReturn(user);
+        User test = userService.createUser(user);
+        Assertions.assertEquals(test,user);
+    }
+
+    @Test
     public void whenUpdateUserCalledDoesNotThrowAnException() {
         Mockito.when(userRepository.findById(1)).thenReturn(Optional.ofNullable(user));
         Assertions.assertDoesNotThrow(() -> userService.updateUser(user,1));
