@@ -24,7 +24,16 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User deleteUserById(Integer userId){
+    public User deleteUserById(Integer userId) {
         return userRepository.deleteUserById(userId);
+    }
+
+    public User updateUser(User user, Integer userId) {
+        User userToUpdate = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User could not be found"));
+        userToUpdate.setEmail(user.getEmail());
+        userToUpdate.setFirstName(user.getFirstName());
+        userToUpdate.setLastName(user.getLastName());
+        userToUpdate.setPassword(user.getPassword());
+        return userRepository.save(userToUpdate);
     }
 }
