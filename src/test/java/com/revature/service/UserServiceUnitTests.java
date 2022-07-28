@@ -28,14 +28,14 @@ public class UserServiceUnitTests {
     @Test
     public void whenUpdateUserCalledDoesNotThrowAnException() {
         Mockito.when(userRepository.findById(1)).thenReturn(Optional.ofNullable(user));
-        Assertions.assertDoesNotThrow(() -> userService.updateUser(user));
+        Assertions.assertDoesNotThrow(() -> userService.updateUser(user,1));
     }
 
     @Test
     public void whenUpdateUserIsCalledReturnsUpdatedUserObject() {
-        Mockito.when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        Mockito.when(userRepository.findById(user.getId())).thenReturn(Optional.ofNullable(user));
         Mockito.when(userRepository.save(user)).thenReturn(user2);
-        User userToUpdate = userService.updateUser(user);
+        User userToUpdate = userService.updateUser(user,1);
         Assertions.assertEquals(userToUpdate, user2);
     }
 }
