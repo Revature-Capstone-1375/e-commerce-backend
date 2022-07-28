@@ -14,6 +14,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PostMapping
+    public User createUser(@RequestBody User user){
+        return userService.createUser(user);
+    }
+
     @DeleteMapping("/{userId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteUserById(@PathVariable Integer userId) {
