@@ -28,8 +28,9 @@ public class UserService {
         return userRepository.save(user);
     }
     
-    public User deleteUserById(Integer userId) {
-        return userRepository.deleteUserById(userId);
+    public void deleteUserById(Integer userId) {
+        User userToDelete = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User could not be found"));
+        userRepository.delete(userToDelete);
     }
 
     public User updateUser(User user, Integer userId) {
