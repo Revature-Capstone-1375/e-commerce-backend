@@ -39,10 +39,12 @@ INSERT INTO product (id, quantity, price, description, image, name) VALUES (
     'Coat'
 );
 
-INSERT INTO users (id, email, password, first_name, last_name) VALUES (
+INSERT INTO users (id, email, password, first_name, last_name, role) VALUES (
     1,
     'testuser@gmail.com',
     'password',
     'Test',
-    'User'
+    'User',
+    1
+
 );

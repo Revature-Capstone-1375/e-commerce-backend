@@ -18,7 +18,6 @@ public class AuthService {
     public Optional<User> findByCredentials(String email, String password) {
         return userService.findByCredentials(email, password);
     }
-
     public User register(User user) {
         return userService.save(user);
     }

@@ -3,11 +3,11 @@ package com.revature.controllers;
 import com.revature.dtos.LoginRequest;
 import com.revature.dtos.RegisterRequest;
 import com.revature.models.User;
+import com.revature.models.enums.UserRoles;
 import com.revature.services.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
@@ -25,13 +25,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
         Optional<User> optional = authService.findByCredentials(loginRequest.getEmail(), loginRequest.getPassword());
-
-        if(!optional.isPresent()) {
+        if (!optional.isPresent()) {
             return ResponseEntity.badRequest().build();
         }
-
         session.setAttribute("user", optional.get());
-
         return ResponseEntity.ok(optional.get());
     }
 
@@ -48,7 +45,8 @@ public class AuthController {
                 registerRequest.getEmail(),
                 registerRequest.getPassword(),
                 registerRequest.getFirstName(),
-                registerRequest.getLastName());
+                registerRequest.getLastName(),
+                UserRoles.USER);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(created));
     }
