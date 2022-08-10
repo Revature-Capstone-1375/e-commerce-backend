@@ -1,0 +1,422 @@
+* goal of class what does it do
+* each method of class and what it does (how to use it)
+* visual before and after (if possible, not required
+Revature Swag E-Commerce Web App
+Our website application sells Revature brand clothing and accessory items.
+Front-End
+Cart
+The cart is responsible for
+Usage: calculating the cost of items. Adding/removing quantities of those items. Removing those items completely from the cart. The functions in this class are unique to each id.
+Arguments:Takes in loginUser object to see if admin or not.
+Return: returns CHECKOUT NOW, CONTINUE SHOPPING, editQuantityUp, editQuantityDown,  and removeButton buttons. Returns the image,name,id,quantity of the products list.
+
+
+Functions: map - used to display the image,name,quantity of products.
+cart.map((product)=>
+
+
+removeButton(id:any, image:any)  - used to remove items from cart.
+const removeButton =(id: any, image: any)
+
+
+Navigate - navigate to checkout now, or continue shopping.
+ <Button color="primary" variant="contained" onClick={() => {navigate('/')}}>CONTINUE SHOPPING</Button>
+          <Button color="primary" variant="contained" onClick={() => {navigate('/checkout')}}>CHECKOUT NOW</Button>
+
+
+
+
+editQuantityUp(id:any) - increments quantity.
+<KeyboardArrowUpOutlined onClick={() => editQuantityUp(product.id)} />
+
+
+
+
+editQuantityDown(id:any) - decrements quantity.
+ <KeyboardArrowDownOutlined onClick={() => editQuantityDown(product.id, product.image)} />
+
+
+[count, setCount] = useState -  render our page.
+Create Product
+The Create Product component allows the user to create their own product using UI components that allows them to create a new product, then post it to the API when they are done, using the upsert API call.
+Usage
+The Create Product component is declared in the Route Paths, and should be declared in the location in which you want a full page HTML page to be visible.
+<Route path="/product/create" element={<CreateProduct loginUser={user}/>} />
+Arguments
+Login User - sends the user to Navbar component, and uses the user in the API call to
+Return
+A full HTML page that allows user input and the user to create the product.
+
+
+
+
+Update Product
+The Update Product component allows a user logged in as an Admin to update a product. The admin can update a product’s name, description, price, quantity and image url by clicking on the arrow button visible when hovering over the product that needs to be updated.
+
+
+
+
+Usage
+The path to access the Update Product can be found in the AppRoutes component.
+<Route path="/product/:id/update" element={<UpdateProduct loginUser={user}/>} />
+
+
+Arguments
+Login User = Takes in the product id and returns information about that specific product.
+
+
+Returns
+A full HTML page with Navbar, the product’s field to edit, an update button to validate the changes.
+
+
+Display Products
+Usage
+The Display Products component allows anyone to view the product cards. The admin can remove, view, and add product cards. The display of product cards is the result of an API get request and uses mapping to display the product card with each unique result.
+ <Route path="/" element={<DisplayProducts loginUser={user} />} />
+
+
+Arguments
+Login User - takes in a user object to pass it into Navbar to check if user or admin.
+Return
+Returns Navbar with login user type, remove button for admins, create button for admins, and product cards.
+Functions
+removeButton(id:any, image:any) - function to remove a product from the products page. Requires admin role to use.
+ {products.map((item) => (<><ProductCard product={item} key={item.id} loginUser={loginUser}}
+
+
+Map - maps each of our product list objects and displays them onto its own product card.
+{loginUser && products.map((item) => ( <><ProductCard product={item} key={item.id} loginUser={loginUser}
+
+
+navigate - uses the useNavigate function from  react-router-dom library to render to a different page on button click and create a new product. This function is only available to admins.
+<Button onClick={() => navigate('/product/create')} color="success" size="large" variant="outlined" startIcon={<AddCircleIcon />}>Add new product</Button>
+
+
+Product Card
+Usage: This component lets us increment and decrement how many quantities of an item we want. Allows us to add items to our cart. Allows us to navigate to update product only as admin.
+Arguments:Takes in props with productProps type.
+Return: Returns our product card container with increment/decrement, navigate, and add to cart button embedded in container.
+Functions:
+addItemToCart - adds item to our cart list and updates it.
+<ShoppingCartOutlined onClick={() => {addItemToCart({...props.product, quantity: counter})}} />
+
+
+incrementCount - lets us increment how many numbers of items we want.
+<KeyboardArrowUpOutlined onClick={incrementCount} />
+
+
+decrementCount - lets us decrement how many numbers of items we want.
+<KeyboardArrowDownOutlined onClick={decrementCount} />
+
+
+Navigate - lets us navigate to update page to update an item, only if admin.
+ {props.loginUser.role == "ADMIN" && <Icon><UpgradeOutlined onClick={() => navigate(`/product/${props.product.id}/update`)}
+
+
+
+
+
+
+Login
+Login component allows users to login and have their information passed through the function to be used on the entire frontend in order to auth for various features.
+Usage:
+
+
+Everytime a user logs in it is passed to AppRoutes where it is saved in a state variable.
+<Route path="/login" element={<Login updateLoginUser={setUser} />} />
+
+
+Arguments:
+It takes one argument to pass in the logged in user to set the user for the state variable.
+<Login updateLoginUser={setUser} />
+
+
+Return:
+Returns the user object from Login and sets the state variable in AppRoutes.tsx.
+Address Form
+Usage: Takes in user address input to create their address.
+Arguments: Takes in props of type addressFormProps.
+Return: a form that takes in user address input with a submit button.
+
+
+  return (
+    <React.Fragment>
+      <Typography variant="h6" gutterBottom>
+        Shipping address
+      </Typography>
+      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+
+
+Functions: handlesubmit  - takes in the input of the form and stores those input into a variable then passes the values of that variable to the updateAddress function. Then calls the handleNext function that will trigger our next case statement.
+Checkout
+Usage:
+Arguments:
+Return:
+Payment Form
+Usage:
+Arguments:
+Return:
+Review
+
+
+
+
+Navbar
+Usage
+The Navbar has two states, user is logged out, and user is logged in.
+
+
+When the user is logged out the navbar will display ‘Revature Swag Shop’, ‘Register’, ‘Sign In’, and Cart.
+
+
+When the user is logged out the Navbar will display ‘Revature Swag Shop’, ‘Profile’, ‘Logout’, and Cart.
+
+
+Arguments
+The Navbar takes in a User Object and is passed to each component that displays the Navbar.
+
+
+<Navbar updateLoginUser={loginUser}/>
+
+
+
+
+Return
+Returns the User Object to the Navbar.tsx and updates what is displayed on if the user is logged in or logged out.
+
+
+
+
+Functions
+{!updateLoginUser &&
+<MenuItem onClick={() => {navigate('/register')}}>REGISTER</MenuItem>
+}
+{!updateLoginUser &&
+          <MenuItem onClick={() => {navigate('/login')}}>SIGN IN</MenuItem>
+}
+{updateLoginUser &&
+<MenuItem onClick={() => {navigate('/profile')}}>PROFILE</MenuItem>
+}
+{updateLoginUser &&
+<MenuItem onClick={() => {window.location.href="/"}}>LOG OUT</MenuItem>
+}
+
+
+
+
+
+
+
+
+Edit Profile
+Usage:
+Edit Profile allows the user to make changes to any part of their profile including first name, last name, email, and password. To change profile information, the user will type the new information in the appropriate field and click edit profile. The changes will then be persisted to the database, so the user can log in with their new credentials after they have been changed. After logging in again and returning to the edit profile page, the user will see the updated information displayed.
+
+
+Functions
+
+
+
+
+const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+
+
+
+
+After the user clicks edit profile, that registers as a FormEvent the event handler, handleSubmit is invoked.Data.get updates the values in the user object, which is persisted to the api, then logs out of the api.The value variable "navigate" user is the useNavigate() hook, which navigates the user back to the home page.
+
+
+
+
+Arguments:
+event: React.FormEvent<HTMLFormElement>
+
+
+
+
+Return: HTTP status code indicating whether update was successful
+
+
+Functions:
+
+
+
+
+
+
+
+
+Quantity
+(This is used in Cart.tsx and ProductCard.tsx)
+Quantity select allows the shopper to choose multiples of items for purchase. All products will have a quantity plus and minus button on the initial shopping/view page and also in the cart. Adding or subtracting with these buttons will change the final price in the shopper’s cart accordingly. Cart.tsx and productcard.tsx
+
+
+Functions
+const editQuantityUp =(id: any)=>{
+const editQuantityDown =(id: any, image: any)=>{
+
+
+editQuantityUp takes in the argument of product id from ProductCard.tsx and when the up arrow is pressed, the original quantity argument increments by one using a for loop.Then the new quantity is set in the setCount function. The new quantity count can be clicked as many times as possible and the number is then transferred to the cart page where it can be used to update the number again.
+
+
+editQuantityDown takes in the argument of product id from ProductCard.tsx and when the down arrow is pressed, the original quantity argument decrements by one using a for loop. Then the new quantity is set in the setCount function. When the quantity is set to zero, the callback function removeButton removes product from cart.
+
+
+Usage: The up and down arrow icons within an item cart and a product card.
+Arguments:
+<KeyboardArrowUpOutlined onClick={() => editQuantityUp(product.id)} />
+<KeyboardArrowDownOutlined onClick={() => editQuantityDown(product.id, product.image)} />
+
+
+Return:
+The number for quantities for each item. If quantity is set to zero, a product itself and its image are removed from the cart.
+Remove Item from Cart
+If you see the above code in Quantity Select, there’s a callback function within editQuantitySelect. When the user clicks on the down arrow to zero, it removes the item from cart.Removing items from the cart deletes the specific/chosen product entirely from the cart and resets the total final price to pay. Cart.tsx
+
+
+Usage: The “X” button within the item card.
+Functions:
+const removeButton =(id: any, image: any)=>{
+
+
+removeButton function takes in the product id and image and and through for loop iteration, it sets in the setCart and filters out the product which removes the product card from cart.
+Arguments:
+<CancelPresentationOutlined onClick={() => removeButton(product.id, product.image)} />
+
+
+Return:
+The item is removed from the cart.
+Register
+Allows a new user to create an account by providing the following: First name, Last name, Email and Password.
+
+
+Usage:
+Once the new user provides the required inputs, the user would then click on the Signup button to register the account and use the credentials for the login page.
+Arguments:
+<Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign Up
+            </Button>
+Return:
+
+
+
+
+
+
+Search Products
+The Search Products component allows any user to search for products. The user can search for a product by inputting the desired product name inside the search bar and validating search by clicking on the magnifier icon.
+
+
+Usage
+The path to access the Search Products can be found in the AppRoutes component.
+
+
+<Route path="/search" element={<SearchProducts loginUser={user}/>}
+/>
+
+
+Arguments
+Any User = Takes in the item name and returns information about all products that product name includes the string inputted in the search bar.
+
+
+Returns
+A full HTML page with Navbar, all products matching the user’s search request.
+
+
+
+
+Product Detail
+The Product Detail component allows the user to view the product detail on its name, quantity, price and description.  You can also adjust the number of items you want to add in a cart by clicking either the upward or downward arrow button.
+
+
+Usage
+<Route path="/product/:id" element={<ProductDetail loginUser={user}/>} />
+Arguments
+Return
+
+
+App Routes
+Provides different URL routes to send the user to different components of the application.
+
+
+Usage:
+The user can type in a specific URL in the browser and if the URL path matches any of the routes in the router file then the user will be sent to that specific route inside the application.
+Arguments:
+Return:
+The component of the application that matches with the URL path. If there is not a URL path specified then the user is directed to the home page.
+
+
+App
+Primary function of application in a React application.  Determines what is displayed on the page.  Individual pages are determined by App Routes.
+Dark Mode
+Provides the end user with the ability to change the webpage from a “light” to “dark” theme to suit their needs. This button is located at the top left of the webpage. To enable “dark mode” the button needs to only be clicked once. From then every page visited thereafter will be updated to reflect the users theme choice  .
+
+
+Auth Service
+A small library of functions that the user can utilize that allow the user to make API calls that come preconfigured
+Usage
+It is used to login and logout of the application.  It is primarily used in the Login component, and in the Navbar for logging out of the API.
+const response = await apiLogin(`${data.get('email')}`, `${data.get('password')}`);
+
+
+Functions
+apiLogin
+Logs the user into the application at the given URL with the given email and password as arguments. Returns the status response along with the user.
+apiLogout
+Logs the user out of the application at the given URL, does not require argument.  Returns the status response and the logged out user.
+apiRegister
+Registers a new user for the application using your first name, last name, email, and password as arguments for the function.  Returns the status response along with the newly registered user.
+E-Commerce Client
+Configures the API to send HTTP requests with Axios.  Implements allowing origin, and hard codes in the backend URL.  It is primarily used in the two API libraries(products services and auth services).
+Product Service
+This is a small library that provides to the user a list of API calls that allow the user to edit the list of products.  All functions require the user to be logged into the application to use.
+
+
+Usage
+Most of these functions are utilized in areas in which products are either benign received by the user or set by the user.
+const result = await apiGetProductById(parseInt(intId))
+
+
+Functions
+apiGetAllProducts
+Takes no arguments and returns a list of products in the payload along with a response code.
+apiGetProductById
+Argument is an id number for what product the user wants.  Returns a payload containing the product, or undefined if there is no product with that id, and returns a status.
+apiUpsertProduct
+If the user passes a product as an argument which already has a taken id then it updates the product, but if the user passes a product that does not have a set id then it creates a new product with the given product information.  Returns a status code and the updated or created product.
+apiPurchase
+The argument is a list of products that are defined as an id number and a quantity to purchase.  The return is the status code and a list of products that have been purchased.
+apiDeleteProduct
+The argument is an id number for what product the user wants to delete.  The return is the status code and what product has been deleted.
+Back-End
+EcommerceApplication
+
+
+Usage:
+@SpringBootApplication
+public class ECommerceApplication {
+@SpringBootApplication combines @EnableAutoConfiguration and @ComponentScan functionalities into one to creates a run-ready application.
+Methods:
+The main method is the entry point.
+Arguments:
+
+
+
+
+Database
+First demo test to test the hibernate:
+
+
+Creates the products that could be added and removed from the cart
+```SQL
+INSERT INTO product (id, quantity, price, description, image, name) VALUES (...);
+```
+Creates the template for the user profiles
+```SQL
+INSERT INTO users (id, email, password, first_name, last_name) VALUES (...);
+```
